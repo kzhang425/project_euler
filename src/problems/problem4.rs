@@ -1,4 +1,4 @@
-pub fn solve() -> (String, i64) {
+pub fn solve() -> (String, u64) {
     let problem_statement = String::from(
         "Find the largest palindrome made from the product of two 3-digit numbers."
     );
@@ -19,10 +19,10 @@ pub fn solve() -> (String, i64) {
     // Then the first case that works would be the maximum
 
 
-    (problem_statement, palindrome as i64)
+    (problem_statement, palindrome as u64)
 }
 
-fn check_palindrome(number: i32) -> bool {
+fn check_palindrome(number: u32) -> bool {
     let numstring = number.to_string();
     let revstring = numstring.chars().rev().collect::<String>();
     if &numstring == &revstring {

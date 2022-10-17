@@ -1,4 +1,4 @@
-pub fn solve() -> (String, i64) {
+pub fn solve() -> (String, u64) {
     let problem_statement = String::from(
         "Find the smallest number evenly divisible by all the numbers 1 to 20."
     );
@@ -14,7 +14,7 @@ pub fn solve() -> (String, i64) {
 
 }
 
-pub fn gcf(a: i64, b: i64) -> i64 {
+pub fn gcf(a: u64, b: u64) -> u64 {
     // Implement Euclid's algorithm in here
     // Make mutable values to work with so that the inputs dont have to be
     let mut x = a;
@@ -33,6 +33,6 @@ pub fn gcf(a: i64, b: i64) -> i64 {
     x + y
 }
 
-pub fn lcm(a: i64, b: i64) -> i64 {
+pub fn lcm(a: u64, b: u64) -> u64 {
     (a * b) / gcf(a, b)
 }

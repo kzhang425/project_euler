@@ -1,4 +1,4 @@
-pub fn solve() -> (String, i64) {
+pub fn solve() -> (String, u64) {
     let problem_statement = String::from(
         "Find the 10001st prime number."
     );
@@ -23,7 +23,7 @@ pub fn solve() -> (String, i64) {
         }
         counter += 2;
     }
-    (problem_statement, found_prime as i64)
+    (problem_statement, found_prime as u64)
 }
 
 

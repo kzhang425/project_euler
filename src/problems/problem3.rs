@@ -1,11 +1,11 @@
-pub fn solve() -> (String, i64) {
+pub fn solve() -> (String, u64) {
     let problem_statement = String::from(
         "Find the largest prime factor of 600851475143"
     );
 
     // Recall the square root rule, where the largest prime factor cannot be greater than the square
     // root of the entire number. This will limit our iterative loop.
-    let number: i64 = 600851475143;
+    let number: u64 = 600851475143;
 
     println!("Solving problem 3: Calculating upper bound");
     // Find an upper bound for the square root by iterating
@@ -33,12 +33,12 @@ pub fn solve() -> (String, i64) {
         largest_prime = number 
     }
 
-    (problem_statement, largest_prime)
+    (problem_statement, largest_prime as u64)
 
 
 }
 
-fn check_prime(number: i64) -> bool {
+fn check_prime(number: u64) -> bool {
     for i in 2..number {
         if number % i == 0 {
             return false;

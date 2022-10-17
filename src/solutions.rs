@@ -4,7 +4,7 @@ use crate::getter::{get_user_input, get_function};
 #[derive(Debug)]
 pub struct Solutions {
     problems: HashMap<u16, String>,
-    answers: HashMap<u16, i64>,
+    answers: HashMap<u16, u64>,
 }
 
 impl Solutions {
@@ -17,7 +17,7 @@ impl Solutions {
         }
     }
 
-    pub fn store_problem(&mut self, prob_num: u16, sol: Option<(String, i64)>) {
+    pub fn store_problem(&mut self, prob_num: u16, sol: Option<(String, u64)>) {
         if let Some(tuple) = sol {
             self.problems.insert(prob_num, tuple.0);
             self.answers.insert(prob_num, tuple.1);

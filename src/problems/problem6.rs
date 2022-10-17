@@ -1,4 +1,4 @@
-pub fn solve() -> (String, i64) {
+pub fn solve() -> (String, u64) {
     let problem_statement = String::from(
         "Find the difference between the sum of the squares of the first hundred natural numbers
         and the square of the sum"
@@ -6,7 +6,7 @@ pub fn solve() -> (String, i64) {
 
     let answer = (sum_squared(100) - squares_summed(100)).abs();
 
-    (problem_statement, answer)
+    (problem_statement, answer as u64)
 }
 
 fn sum_squared(num: i64) -> i64 {

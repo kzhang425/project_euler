@@ -1,7 +1,7 @@
 use crate::problems::*;
 use std::error::Error;
 
-pub fn get_function(num: u16) -> Option<(String, i64)> {
+pub fn get_function(num: u16) -> Option<(String, u64)> {
     match num {
         // Update for problems
         1 => Some(problem1::solve()),
@@ -11,6 +11,7 @@ pub fn get_function(num: u16) -> Option<(String, i64)> {
         5 => Some(problem5::solve()),
         6 => Some(problem6::solve()),
         7 => Some(problem7::solve()),
+        8 => Some(problem8::solve()),
         _ => None,
     }
 }

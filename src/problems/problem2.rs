@@ -1,4 +1,4 @@
-pub fn solve() -> (String, i64) {
+pub fn solve() -> (String, u64) {
     // The difficult part is a way to generate the Fibonacci sequence
     let problem_statement = String::from(
         "For Fibonnaci numbers that do not exceed 4 million, find the sum of the even ones."
@@ -18,5 +18,5 @@ pub fn solve() -> (String, i64) {
         b = c;
     }
 
-    (problem_statement, sum as i64)
+    (problem_statement, sum as u64)
 }
