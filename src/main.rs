@@ -9,7 +9,6 @@ fn main() {
     let mut x = Solutions::new();
     println!("PROJECT EULER PROBLEMS");
     loop {
-        
         x.do_problem();
         if ask_exit() == "q" {
             break;

@@ -27,7 +27,7 @@ pub fn solve() -> (String, u64) {
 }
 
 
-fn check_prime(num: u32, primes: &Vec<u32>) -> bool {
+pub fn check_prime(num: u32, primes: &Vec<u32>) -> bool {
     for prime in primes {
         if num % *prime == 0 {
             return false;

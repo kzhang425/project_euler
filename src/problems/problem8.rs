@@ -31,6 +31,7 @@ pub fn solve() -> (String, u64) {
 
     // Initialize some parameters, like how many digits per block we are considering
     let length = big_number.len();
+    // Can adjust this to see how many consecutive numbers
     let block = 13;
     let mut max_product: u64 = 0;
     for i in 0..(length - block) {
