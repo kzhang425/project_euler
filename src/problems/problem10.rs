@@ -3,7 +3,7 @@ use super::problem7::check_prime;
 
 pub fn solve() -> (String, u64) {
     let problem_statement = String::from(
-        "Find the sum of the primes below two million"
+        "Find the sum of the primes below two million. This may take a long time."
     );
 
     let mut primes: Vec<u32> = Vec::new();
