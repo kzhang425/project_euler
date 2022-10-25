@@ -49,16 +49,20 @@ pub fn solve() -> (String, u64) {
     );
 
     // Now turn this monstrosity into a vector of vectors.
-    let matrix_vec = parse_matrix(&matrix);
+    let matrix_vec = Matrix::new(&matrix);
+    
 
-    // Get the dimensions to be safe for the next few steps
-    let dimensions = get_dims(&matrix_vec);
+
+    
 
 
     unimplemented!("Not there yet");
 }
 
-fn parse_matrix(matrix: &str) -> Vec<Vec<u32>> {
+// Here are some useful functions and aliases that make all this possible
+type TwodArray = Vec<Vec<u32>>;
+
+fn parse_matrix(matrix: &str) -> TwodArray {
     // This takes a string-looking matrix delimited by spaces and turns it into a 2D vector
     matrix.lines().map(|line| {
         line.split_whitespace().map(|num| {
@@ -70,6 +74,29 @@ fn parse_matrix(matrix: &str) -> Vec<Vec<u32>> {
 fn get_dims(input: &Vec<Vec<u32>>) -> (usize, usize) {
     (input.len(), input[0].len())
 }
+
+// Lets actually define these things in a struct
+struct Matrix {
+    data: TwodArray,
+    y_len: usize,
+    x_len: usize,
+}
+
+impl Matrix {
+    // Initialize the new struct
+    fn new(array_string: &str) -> Self {
+        let data = parse_matrix(array_string);
+        let (y_len, x_len) = get_dims(&data);
+        Matrix {
+            data,
+            y_len,
+            x_len,
+        }
+    }
+}
+
+// We have the preliminary test cases below, inital testing of functions and methods to see
+// if they would work in solving the problem
 
 #[cfg(test)]
 mod tests {
