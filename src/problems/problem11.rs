@@ -51,12 +51,20 @@ pub fn solve() -> (String, u64) {
     // Now turn this monstrosity into a vector of vectors.
     let matrix_vec = Matrix::new(&matrix);
     
+    // Iterate through the elements of the matrix and get the largest product there
+    // Can define how many numbers multiplied together below:
+    let how_many_multiplied = 4;
+    let mut max = 1;
+    for i in 0..matrix_vec.y_len {
+        for j in 0..matrix_vec.x_len {
+            let product = matrix_vec.max_product(i, j, how_many_multiplied);
+            if product > max {
+                max = product;
+            }
+        }
+    }
 
-
-    
-
-
-    unimplemented!("Not there yet");
+    (problem_statement, max as u64)
 }
 
 // Here are some useful functions and aliases that make all this possible
@@ -93,6 +101,53 @@ impl Matrix {
             x_len,
         }
     }
+
+    fn get_value(&self, y: usize, x: usize) -> Option<u32> {
+        Some(
+            *self.data.get(y)?
+                .get(x)?
+        )
+    }
+
+    fn max_product(&self, y: usize, x: usize, len: usize) -> u32 {
+        // The point of this function is to take a starting point in the matrix and then radially
+        // calculate products (rows, columns, diagonals). Since get_value is Option<u32>, it is okay
+        // if it indexes out of bounds because it will be None and won't panic (hopefully)
+
+        let start = self.get_value(y, x).unwrap();
+
+        let mut up: u32 = start;
+        let mut down: u32 = start;
+        let mut left: u32 = start;
+        let mut right: u32 = start;
+        let mut ne: u32 = start;
+        let mut nw: u32 = start;
+        let mut sw: u32 = start;
+        let mut se: u32 = start;
+
+        for i in 1..len {
+            if y >= i {
+                up *= self.get_value(y - i, x).unwrap_or_else(|| 1);
+                ne *= self.get_value(y - i, x + i).unwrap_or_else(|| 1);
+            }
+
+            if x >= i {
+                left *= self.get_value(y, x - i).unwrap_or_else(|| 1);
+                sw *= self.get_value(y + i, x - i).unwrap_or_else(|| 1);
+            }
+
+            if (y >= i) && (x >= i) {
+                nw *= self.get_value(y - i, x - i).unwrap_or_else(|| 1);
+            }
+            // Honestly don't even need most of them in the if statements.
+            // Bare minimum I will need to check either ne or sw along with all the ones below
+            down *= self.get_value(y + i, x).unwrap_or_else(|| 1);
+            right *= self.get_value(y, x + i).unwrap_or_else(|| 1);
+            se *= self.get_value(y + i, x + i).unwrap_or_else(|| 1);
+        }
+
+        *[up, down, left, right, ne, nw, sw, se].iter().max().unwrap()
+    }
 }
 
 // We have the preliminary test cases below, inital testing of functions and methods to see
@@ -122,5 +177,26 @@ mod tests {
         let x = parse_matrix(&bruh);
 
         assert_eq!(get_dims(&x), (2, 2));
+    }
+
+    #[test]
+    fn workflow() {
+        // Initialize a variable that will hold our max value
+        let mut max = 1;
+        let bruh = String::from(
+            "01 02
+            03 04".trim()
+        );
+        
+        let matrix = Matrix::new(&bruh);
+        for i in 0..matrix.y_len {
+            for j in 0..matrix.x_len {
+                if matrix.max_product(i, j, 2) > max {
+                    max = matrix.max_product(i, j, 2);
+                }
+            }
+        }
+
+        assert_eq!(max, 12);
     }
 }
