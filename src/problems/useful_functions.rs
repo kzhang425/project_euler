@@ -1,85 +1,44 @@
 #[allow(dead_code)]
-/// This requires a vector of u32s and an input of u32 in order to work.
-pub fn check_prime(num: u64, primes: &Vec<u64>) -> bool {
-    for prime in primes {
-        if num % *prime == 0 {
-            return false;
-        }
+use std::collections::HashMap;
+pub fn e_sieve(upper_limit: usize) -> Vec<usize> {
+    if upper_limit < 2 {
+        return vec![2];
     }
-    true
-}
-
-/// A way to do number theory stuff like primes, divisors, and factors
-pub struct Partition {
-    number: u64,
-    primes: Vec<u64>,
-    powers: Vec<u32>,
-}
-impl Partition {
-    pub fn new(number: u64) -> Self {
-        // Make a vector here to serve as the "memory" of found primes
-        // Just a little memory heavy when it comes to solving the problem
-        let mut primes: Vec<u64> = Vec::new();
-        primes.push(2);
-        
-        // Initialize the counter that will start counting up. For more speed, only
-        // consider odd numbers
-        let mut counter: u64 = 3;
-        while counter <= number {
-            if check_prime(counter, &primes) && (counter <= number) {
-                primes.push(counter);
+    let mut prime_bits = vec![true; upper_limit + 1];
+    prime_bits[0] = false;
+    prime_bits[1] = false;
+    let cutoff = (upper_limit as f64).sqrt() as usize + 1;
+    for i in 2..=cutoff {
+        if prime_bits[i] && (i.pow(2) <= upper_limit) {
+            for j in (i.pow(2)..=upper_limit).step_by(i) {
+                prime_bits[j] = false;
             }
-            counter += 2;
-        }
-
-        // We need to clean up and remove the primes that do not divide the number
-        primes.retain(|&x| number % x == 0);
-
-        let powers = primes.iter()
-            .map(|entry| {
-                let mut power_num = 1;
-                while number % entry.pow(power_num) == 0 {
-                    if number % entry.pow(power_num + 1) == 0 {
-                        power_num += 1;
-                        continue;
-                    } else {
-                        break;
-                    }
-                }
-                // Finally, return the value from the mapping step
-                power_num
-            }).collect(); // Collect into a Vector
-        
-        // Return a struct
-        Partition {
-            number,
-            primes,
-            powers,
         }
     }
+
+    // Now collect the numbers that survived into a vector
+    (0..=upper_limit).into_iter().filter(|&x| prime_bits[x]).collect::<Vec<usize>>()
 }
 
-
-
-/// Tests the functionality of the Divisors struct.
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn check_number() {
-        let x = Partition::new(36);
-        assert_eq!(x.number, 36);
+pub fn count_divisors(num: u64) -> u32 {
+    let max_case = (num as f64).sqrt() as u64 + 1;
+    let mut data: HashMap<u64, u32> = HashMap::new();
+    let mut number = num;
+    while number % 2 == 0 {
+        number /= 2;
+        data.entry(2).and_modify(|e| *e += 1).or_insert(1);
     }
 
-    #[test]
-    fn check_primes() {
-        let x = Partition::new(36);
-        assert_eq!(x.primes, vec![2, 3]);
+    for i in (3..max_case).step_by(2) {
+        while number % i == 0 && i != number {
+            number /= i;
+            data.entry(i as u64).and_modify(|e| *e += 1).or_insert(1);
+        }
     }
 
-    #[test]
-    fn check_powers() {
-        let x = Partition::new(36);
-        assert_eq!(x.powers, vec![2, 2]);
-    }
+    data.entry(number as u64).or_insert(1);
+
+    data.into_iter().map(|(_, key)| {
+        key + 1
+    }).product()
 }
