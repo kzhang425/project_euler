@@ -42,3 +42,29 @@ pub fn count_divisors(num: u64) -> u32 {
         key + 1
     }).product()
 }
+
+fn into_digit_array(input: &str) -> Vec<Vec<u8>> {
+    input.lines()
+        .map(|line| {
+            line.trim()
+                .chars()
+                .map(|c| c.to_digit(10).unwrap() as u8)
+                .collect::<Vec<u8>>()
+        }).collect::<Vec<Vec<u8>>>()
+}
+
+pub fn generate_collatz(start: u64) -> Vec<usize> {
+    // Passes the test
+    let mut number = start;
+    let mut returnable: Vec<usize> = Vec::new();
+    returnable.push(number as usize);
+    while number != 1 {
+        match number % 2 {
+            0 => number /= 2,
+            _ => number = number * 3 + 1,
+        }
+        returnable.push(number as usize);
+    }
+
+    returnable
+}
