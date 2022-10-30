@@ -18,6 +18,7 @@ pub fn get_function(num: u16) -> Option<(String, u64)> {
         12 => Some(problem12::solve()),
         13 => Some(problem13::solve()),
         14 => Some(problem14::solve()),
+        15 => Some(problem15::solve()),
         _ => None,
     }
 }

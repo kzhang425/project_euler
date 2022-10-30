@@ -1,4 +1,4 @@
-#[allow(dead_code)]
+#![allow(dead_code)]
 use std::collections::HashMap;
 pub fn e_sieve(upper_limit: usize) -> Vec<usize> {
     if upper_limit < 2 {
@@ -18,6 +18,25 @@ pub fn e_sieve(upper_limit: usize) -> Vec<usize> {
 
     // Now collect the numbers that survived into a vector
     (0..=upper_limit).into_iter().filter(|&x| prime_bits[x]).collect::<Vec<usize>>()
+}
+
+pub fn gcf(a: u64, b: u64) -> u64 {
+    // Implement Euclid's algorithm in here
+    // Make mutable values to work with so that the inputs dont have to be
+    let mut x = a;
+    let mut y = b;
+    while x != 0 && y != 0 {
+        // catch equality case as well
+        if x >= y {
+            x = x % y;
+        }
+
+        if y > x {
+            y = y % x;
+        }
+    }
+    // One of these is 0 anyways, so this will be the gcf
+    x + y
 }
 
 pub fn count_divisors(num: u64) -> u32 {
@@ -67,4 +86,14 @@ pub fn generate_collatz(start: u64) -> Vec<usize> {
     }
 
     returnable
+}
+
+pub fn nCr(n: u64, r: u64) -> u64 {
+    // Returns a combination
+    let N = n as u128;
+    let R = r as u128;
+    let numerator: u128 = ((N - R + 1)..(N + 1)).product();
+    let denominator: u128 = (1..R + 1).product();
+
+    (numerator / denominator) as u64
 }
